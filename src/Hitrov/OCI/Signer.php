@@ -23,18 +23,22 @@ class Signer
     const SIGNING_HEADER_X_CONTENT_SHA256 = 'x-content-sha256';
 
     const CONTENT_TYPE_APPLICATION_JSON = 'application/json';
-
-    private string $ociTenancyId;
-    private string $ociUserId;
-    private string $ociKeyFingerPrint;
-    private string $ociPrivateKeyLocation;
+    /** @var string  */
+    private $ociTenancyId;
+    /** @var string  */
+    private $ociUserId;
+    /** @var string  */
+    private $ociKeyFingerPrint;
+    /** @var string  */
+    private $ociPrivateKeyLocation;
 
     /**
-     * @var array<string, string>
+     * @var array[string=>string]
+     * @deprecated
      */
-    private array $headersToSign;
-
-    private KeyProviderInterface $keyProvider;
+    private $headersToSign;
+    /** @var KeyProviderInterface */
+    private $keyProvider;
 
     /**
      * Signer constructor.
@@ -247,9 +251,9 @@ class Signer
      */
     private function getHeadersToSign(string $url, string $method, ?string $body, ?string $contentType, string $dateString = null): array
     {
-        if (isset($this->headersToSign)) {
-            return $this->headersToSign;
-        }
+//        if (isset($this->headersToSign)) {
+//            return $this->headersToSign;
+//        }
 
         $parsed = parse_url($url);
 
@@ -288,10 +292,10 @@ class Signer
                     break;
             }
         }
+        return $headersMap;
+//        $this->headersToSign = $headersMap;
 
-        $this->headersToSign = $headersMap;
-
-        return $this->headersToSign;
+//        return $this->headersToSign;
     }
 
     /**
